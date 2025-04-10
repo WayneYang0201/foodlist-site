@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>從 GitHub 顯示 JSON 資料</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .product {
+            margin-bottom: 20px;
+        }
+        img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>產品列表</h1>
+    <div id="product-list"></div>
+
+    <script>
+        // 使用 GitHub 上的 JSON 檔案 URL
+        fetch('https://raw.githubusercontent.com/你的用戶名/儲存庫名稱/main/products.json')
+            .then(response => response.json())  // 解析 JSON 資料
+            .then(data => {
+                const productList = document.getElementById('product-list');
+                data.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.classList.add('product');
+                    productDiv.innerHTML = `
+                        <h2>${product.name}</h2>
+                        <img src="${product.imgUrl}" alt="${product.name}">
+                        <p>價格: $${product.price}</p>
+                    `;
+                    productList.appendChild(productDiv);
+                });
+            })
+            .catch(error => {
+                console.error('讀取 JSON 資料時發生錯誤:', error);
+            });
+    </script>
+</body>
+</html>
